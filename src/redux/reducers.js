@@ -3,6 +3,7 @@
  */
 import {combineReducers} from 'redux'
 import {AUTH_SUCCESS,ERROR_MSG} from "./action-types";
+import {getRedirectPath} from "../utils";
 
 const initUser = {
     username:'',
@@ -15,12 +16,11 @@ function user(state = initUser,action){
 
     switch (action.type){
         case AUTH_SUCCESS://认证成功
-            // return {...action.data,redirectTo: '/'}
-            console.log(action)
-            return state;
+            const redirectTo = getRedirectPath(action.data.type,action.data.header)
+            return {...action.data,redirectTo: redirectTo}
         case ERROR_MSG://错误信息提示
-            // return {...state,msg: action.data}
-            return state;
+            return {...state,msg: action.data}
+
         default:
             return state;
     }
